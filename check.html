@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connection Check</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root { color-scheme: light; --bg: #f6f6f4; --surface: #fcfcfb; --text: #0b0b0b; --muted: #52514e; --good: #006300; --bad: #b42626; --line: #e2e1dc; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --bg: #121211; --surface: #1a1a19; --text: #f0efec; --muted: #c3c2b7; --good: #4cc94c; --bad: #ef6b6b; --line: #33332f; } }
+    :root[data-theme="dark"] { color-scheme: dark; --bg: #121211; --surface: #1a1a19; --text: #f0efec; --muted: #c3c2b7; --good: #4cc94c; --bad: #ef6b6b; --line: #33332f; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; padding: 24px 16px; }
+    main { max-width: 520px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+    li { margin: .4rem 0; } .ok { color: var(--good); } .bad { color: var(--bad); } small { color: var(--muted); }
+    a { color: #2a78d6; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>连接测试 · Kiểm tra kết nối</h1>
+  <p><small>请不要开 VPN，打开本页后截图发给负责人。<br>Tắt VPN, mở trang này rồi chụp màn hình gửi người phụ trách.</small></p>
+  <ul id="out"><li>…</li></ul>
+  <p><a href="./">→ 打开项目管理 / Mở trang quản lý</a></p>
+</main>
+<script src="js/config.js"></script>
+<script>
+(async () => {
+  const out = document.getElementById('out');
+  const rows = [];
+  const show = () => { out.innerHTML = rows.map(r => `<li class="${r[1] ? 'ok' : 'bad'}">${r[1] ? '✓' : '✗'} ${r[0]} <small>${r[2] || ''}</small></li>`).join(''); };
+  rows.push(['网站 / Trang web', true, location.host]); show();
+  const cfg = window.HUB_CONFIG || {};
+  if (!cfg.SUPABASE_URL) { rows.push(['服务器未配置 / Chưa cấu hình máy chủ', false]); show(); return; }
+  const t0 = performance.now();
+  try {
+    const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 12000);
+    const r = await fetch(cfg.SUPABASE_URL + '/auth/v1/settings', { headers: { apikey: cfg.SUPABASE_ANON_KEY }, signal: ctl.signal });
+    clearTimeout(timer);
+    rows.push(['数据库服务器 / Máy chủ dữ liệu', r.ok, Math.round(performance.now() - t0) + ' ms']);
+  } catch (e) {
+    rows.push(['数据库服务器 / Máy chủ dữ liệu', false, (e.name === 'AbortError' ? 'timeout 12s' : e.message)]);
+  }
+  rows.push(['时间 / Thời gian', true, new Date().toLocaleString()]);
+  show();
+})();
+</script>
+</body>
+</html>

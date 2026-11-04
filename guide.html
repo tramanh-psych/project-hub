@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hướng dẫn sử dụng · 使用说明</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root { color-scheme: light; --bg: #f6f6f4; --surface: #fcfcfb; --surface-2: #f0efec; --line: #e2e1dc; --text: #0b0b0b; --text-2: #52514e;
+      --accent: #2a78d6; --accent-soft: #e6f0fc; --warn-bg: #fdf3dc; --warn: #7a5300; --good: #006300; --bad: #b42626;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --bg: #121211; --surface: #1a1a19; --surface-2: #242422; --line: #33332f;
+      --text: #f0efec; --text-2: #c3c2b7; --accent: #3987e5; --accent-soft: #1d2c40; --warn-bg: #3a2f12; --warn: #fab219; --good: #4cc94c; --bad: #ef6b6b; } }
+    :root[data-theme="dark"] { color-scheme: dark; --bg: #121211; --surface: #1a1a19; --surface-2: #242422; --line: #33332f;
+      --text: #f0efec; --text-2: #c3c2b7; --accent: #3987e5; --accent-soft: #1d2c40; --warn-bg: #3a2f12; --warn: #fab219; --good: #4cc94c; --bad: #ef6b6b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.65; }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    h1 { font-size: 1.6rem; margin: .2rem 0; line-height: 1.25; }
+    h2 { font-size: 1.2rem; margin: 2.2rem 0 .6rem; padding-top: .4rem; border-top: 1px solid var(--line); }
+    h3 { font-size: 1rem; margin: 1.4rem 0 .3rem; }
+    a { color: var(--accent); }
+    .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+    .lang button { border: 0; background: var(--surface); color: var(--text); padding: .4rem .9rem; font: inherit; cursor: pointer; }
+    .lang button.on { background: var(--accent); color: #fff; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem; margin: 1rem 0; }
+    .note { background: var(--accent-soft); border-radius: 8px; padding: .7rem .9rem; margin: 1rem 0; }
+    .warn { background: var(--warn-bg); color: var(--text); border-left: 4px solid var(--warn); border-radius: 6px; padding: .7rem .9rem; margin: 1rem 0; }
+    ol.steps { counter-reset: s; list-style: none; padding: 0; }
+    ol.steps > li { counter-increment: s; position: relative; padding: .2rem 0 .9rem 2.6rem; }
+    ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: .15rem; width: 1.8rem; height: 1.8rem; border-radius: 50%;
+      background: var(--accent); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: .9rem; }
+    .btn { display: inline-block; padding: .05rem .5rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); font-size: .9em; white-space: nowrap; }
+    table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+    th, td { text-align: left; padding: .5rem .55rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { background: var(--surface-2); font-weight: 600; }
+    .y { color: var(--good); font-weight: 600; } .n { color: var(--bad); font-weight: 600; }
+    .flow { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: .6rem 0; }
+    .flow span { background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: .15rem .7rem; font-size: .9rem; }
+    .flow i { color: var(--text-2); font-style: normal; }
+    .toc { columns: 2; column-gap: 2rem; padding-left: 1.2rem; } @media (max-width: 560px) { .toc { columns: 1; } }
+    code { background: var(--surface-2); padding: .05rem .35rem; border-radius: 4px; font-size: .9em; word-break: break-all; }
+    [data-l] { display: none; } body.vi [data-l="vi"], body.zh [data-l="zh"] { display: revert; }
+    @media print { .lang, .noprint { display: none !important; } body { background: #fff; } h2 { break-after: avoid; } .card, tr { break-inside: avoid; } }
+  </style>
+</head>
+<body class="vi">
+<main>
+<header>
+  <div><span data-l="vi">Project Hub · Hướng dẫn sử dụng</span><span data-l="zh">Project Hub · 使用说明</span>
+    <h1 data-l="vi">Cách tham gia và cập nhật tiến độ</h1><h1 data-l="zh">如何加入并更新进度</h1></div>
+  <div class="lang noprint" role="group" aria-label="Language">
+    <button data-set="vi" class="on">Tiếng Việt</button><button data-set="zh">中文</button>
+  </div>
+</header>
+
+<!-- ============================== TIẾNG VIỆT ============================== -->
+<section data-l="vi">
+  <div class="note"><b>Địa chỉ web:</b> <a href="./" class="site-url">./</a><br>
+    Không cần VPN. Dùng được trên điện thoại và máy tính. Giao diện có Tiếng Việt, 中文, English.</div>
+
+  <ul class="toc">
+    <li><a href="#vi-1">1. Tham gia lần đầu</a></li>
+    <li><a href="#vi-2">2. Xem việc của mình</a></li>
+    <li><a href="#vi-3">3. Cập nhật tiến độ</a></li>
+    <li><a href="#vi-4">4. Nộp bài</a></li>
+    <li><a href="#vi-5">5. Duyệt và làm lại</a></li>
+    <li><a href="#vi-6">6. Tài liệu, lịch, nhắc hạn</a></li>
+    <li><a href="#vi-7">7. Ai thấy được gì</a></li>
+    <li><a href="#vi-8">8. Câu hỏi thường gặp</a></li>
+    <li><a href="#vi-lead">Phần cho người phụ trách</a></li>
+  </ul>
+
+  <h2 id="vi-1">1. Tham gia lần đầu</h2>
+  <ol class="steps">
+    <li><b>Gửi email của bạn cho người phụ trách dự án</b>. Người phụ trách nhập email đó vào danh sách thành viên. Bạn chưa cần tự làm gì.</li>
+    <li><b>Kiểm tra kết nối</b> (nhất là khi ở Trung Quốc): <b>tắt VPN</b>, mở <a class="check-url" href="check.html">check.html</a>. Thấy hai dấu ✓ xanh là được. Nếu thấy ✗, chụp màn hình gửi người phụ trách.</li>
+    <li>Mở web, bấm <span class="btn">Chưa có tài khoản? Tạo mới</span>.</li>
+    <li>Nhập <b>họ tên</b>, <b>đúng email đã gửi cho người phụ trách</b> và một mật khẩu (ít nhất 6 ký tự), rồi bấm <span class="btn">Tạo tài khoản</span>.</li>
+    <li>Bạn sẽ <b>tự động vào được dự án</b> của mình. Chọn ngôn ngữ ở góc dưới bên trái (điện thoại: bấm ☰).</li>
+  </ol>
+  <div class="warn">Nếu đăng nhập xong mà thấy <i>"Bạn chưa được thêm vào dự án nào"</i>: có thể bạn đã dùng email khác với email đã gửi cho người phụ trách, hoặc người phụ trách chưa nhập email của bạn. Hãy nhắn người phụ trách kiểm tra.</div>
+
+  <h2 id="vi-2">2. Xem việc của mình</h2>
+  <ul>
+    <li><b>Tổng quan</b>: có thông báo đỏ khi việc <b>quá hạn</b> và vàng khi <b>còn ≤ 3 ngày</b>, cùng danh sách việc sắp đến hạn.</li>
+    <li>Bấm tên dự án, chọn tab <b>Công việc</b>, tick <span class="btn">Của tôi</span> để chỉ hiện việc được giao cho bạn.</li>
+    <li>Bấm vào một việc để xem: <b>kết quả cần nộp</b>, <b>tiêu chí đánh giá</b>, <b>nộp ở đâu</b>, hạn chót.</li>
+    <li>Tab <b>Lịch trình</b> hiện mọi việc trên dòng thời gian. Vạch đỏ dọc là hôm nay.</li>
+  </ul>
+
+  <h2 id="vi-3">3. Cập nhật tiến độ</h2>
+  <p>Mỗi tuần cập nhật <b>ít nhất 1 lần</b>, hoặc mỗi khi có tiến triển.</p>
+  <ol class="steps">
+    <li>Mở việc, tìm khung <b>Cập nhật tiến độ</b>.</li>
+    <li>Chọn <b>Trạng thái</b>: <i>Chưa bắt đầu</i>, <i>Đang làm</i>, <i>Tạm dừng</i> hoặc <i>Đã nộp – chờ duyệt</i>.</li>
+    <li>Kéo thanh <b>Tiến độ %</b>.</li>
+    <li>Viết <b>Ghi chú</b> ngắn: đã làm gì, có vướng gì. Ví dụ: <i>"Đã đọc 8/20 bài, thiếu quyền tải 2 bài trên CNKI"</i>.</li>
+    <li>Bấm <span class="btn">Gửi</span>. Mọi lần cập nhật đều được lưu vào <b>lịch sử</b>, là bằng chứng đóng góp của bạn.</li>
+  </ol>
+  <div class="flow"><span>Chưa bắt đầu</span><i>→</i><span>Đang làm</span><i>→</i><span>Đã nộp – chờ duyệt</span><i>→</i><span>Hoàn thành ✓</span><i>(người phụ trách xác nhận)</i></div>
+  <div class="note">Bạn <b>không tự chọn được "Hoàn thành"</b>. Khi làm xong, chọn <b>"Đã nộp – chờ duyệt"</b>. Người phụ trách kiểm tra rồi mới xác nhận. Ngày bạn chọn "Đã nộp" được dùng để tính <b>đúng hạn / trễ hạn</b>.</div>
+
+  <h2 id="vi-4">4. Nộp bài</h2>
+  <p>File vẫn nộp trên <b>WPS</b> (hoặc nơi ghi ở mục <i>Nộp ở đâu</i>). Trên web chỉ cần ghi lại <b>link</b>.</p>
+  <ol class="steps">
+    <li>Tải file lên WPS / thư mục chung như bình thường.</li>
+    <li>Trong WPS, bấm <b>分享 / Chia sẻ</b> rồi <b>复制链接 / Copy link</b>.</li>
+    <li>Trên web, mở việc, tìm khung <b>Nộp bài mới</b> và dán link. Có thể thêm mô tả, ví dụ <i>"10 bản tóm tắt, bản 1"</i>. Bấm <span class="btn">Gửi</span>.</li>
+    <li>Đổi trạng thái thành <b>Đã nộp – chờ duyệt</b> (mục 3).</li>
+  </ol>
+  <p>Cách khác: tab <b>Nộp bài</b>, chọn việc trong danh sách, dán link rồi bấm Gửi.</p>
+  <div class="note">🔒 <b>Bài nộp là riêng tư</b>: chỉ <b>bạn</b> và <b>người phụ trách dự án</b> thấy. Thành viên khác không thấy bạn nộp gì. Bài chưa được xem thì bạn còn xoá được (🗑).</div>
+
+  <h2 id="vi-5">5. Duyệt và làm lại</h2>
+  <ul>
+    <li>Ở tab <b>Nộp bài</b>, cột <b>Nhận xét</b> hiện kết quả: <i>Chờ xem</i>, <i>Đạt</i> hoặc <i>Cần sửa</i>, kèm lời nhận xét.</li>
+    <li>Nếu người phụ trách bấm <b>Yêu cầu làm lại</b>, việc quay về <i>Đang làm</i>. Bạn sửa, nộp link mới, rồi lại chọn <i>Đã nộp – chờ duyệt</i>.</li>
+    <li>Khi việc được xác nhận <b>Hoàn thành</b> thì không sửa được nữa. Nếu cần sửa, nhắn người phụ trách.</li>
+  </ul>
+
+  <h2 id="vi-6">6. Tài liệu, lịch, nhắc hạn</h2>
+  <ul>
+    <li>Tab <b>Tài liệu &amp; quyền</b>: link các thư mục được chia sẻ với bạn. Mỗi người chỉ thấy những gì cần cho việc của mình.</li>
+    <li>Trên trang <b>Tổng quan</b>, bấm <span class="btn">📅 Thêm vào lịch (.ics)</span> và mở file bằng ứng dụng lịch (điện thoại hoặc Outlook). Lịch sẽ <b>nhắc trước 2 ngày</b> cho mỗi hạn chót. Khi có việc mới, tải lại file này.</li>
+    <li>Nút <span class="btn">⬇ Xuất Excel (.csv)</span> trong tab Công việc lưu danh sách việc ra Excel.</li>
+  </ul>
+
+  <h2 id="vi-7">7. Ai thấy được gì</h2>
+  <table>
+    <tr><th></th><th>Bạn (thành viên)</th><th>Thành viên khác</th><th>Người phụ trách</th></tr>
+    <tr><td>Danh sách việc, tiến độ chung</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+    <tr><td>Sửa tiến độ việc của bạn</td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>Bài nộp của bạn</td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>Email của bạn</td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>Bảng hiệu suất, % đóng góp</td><td class="n">✗</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>Ghi nhận CRediT</td><td>chỉ dòng của bạn</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>Tài liệu mức <i>Hạn chế / Kiểm soát</i></td><td>nếu được cấp quyền</td><td>nếu được cấp quyền</td><td class="y">✓</td></tr>
+  </table>
+  <p><small>Một số dự án có thể đặt chế độ "chỉ thấy việc của mình". Khi đó bạn chỉ thấy việc được giao cho bạn.</small></p>
+
+  <h2 id="vi-8">8. Câu hỏi thường gặp</h2>
+  <h3>Quên mật khẩu?</h3><p>Nhắn người phụ trách để được đặt lại.</p>
+  <h3>Web không mở được / rất chậm?</h3><p>Tắt VPN rồi thử lại, mở <a class="check-url" href="check.html">check.html</a> và gửi ảnh chụp cho người phụ trách. Thử thêm trình duyệt khác (Chrome, Edge, Safari). Trong WeChat, bấm ··· rồi chọn "Mở bằng trình duyệt".</p>
+  <h3>Không thấy nút cập nhật?</h3><p>Chỉ việc <b>được giao cho bạn</b> mới có khung cập nhật. Nếu việc đáng ra là của bạn mà không hiện, nhắn người phụ trách giao lại.</p>
+  <h3>Thấy lỗi màu đỏ ở dưới màn hình?</h3><p>Tải lại trang (F5 hoặc kéo xuống). Nếu vẫn lỗi, chụp màn hình gửi người phụ trách.</p>
+
+  <!-- ---------- Lead ---------- -->
+  <h2 id="vi-lead">Phần cho người phụ trách</h2>
+  <div class="card">
+    <h3>Mời thành viên</h3>
+    <ol>
+      <li>Mở dự án, tab <b>Thành viên</b>, bấm ✎ ở người cần mời, nhập <b>email</b> rồi bấm Lưu. Người mới thì bấm <b>＋ Thêm thành viên</b>.</li>
+      <li>Gửi họ: link web, link <code>check.html</code> và trang hướng dẫn này (hoặc file PDF).</li>
+      <li>Khi họ tạo tài khoản bằng đúng email đó, cột email sẽ hiện <b>✓ Đã đăng nhập</b>.</li>
+    </ol>
+    <h3>Giao việc</h3>
+    <p>Ở tab Công việc, bấm <b>＋ Thêm việc</b> hoặc mở một việc rồi bấm ✎ Sửa. Nên ghi đủ: <b>người phụ trách</b>, <b>hạn chót</b>, <b>giờ công</b>, <b>kết quả cần nộp</b> (cụ thể, ví dụ "20 bài báo phù hợp"), <b>tiêu chí</b> và <b>nộp ở đâu</b>.</p>
+    <h3>Duyệt</h3>
+    <p>Trang Tổng quan có mục <b>Cần bạn duyệt</b>. Mở việc, xem bài nộp, rồi bấm <b>✓ Duyệt hoàn thành</b> hoặc <b>↺ Yêu cầu làm lại</b>. Ở tab Nộp bài, bấm <b>Nhận xét</b> để chấm <i>Đạt / Cần sửa</i>.</p>
+    <h3>Quyền tài liệu</h3>
+    <p>Ở tab Tài liệu &amp; quyền, thêm thư mục và chọn mức: <i>Cộng tác</i> (ai cũng thấy), <i>Kiểm soát</i> hoặc <i>Hạn chế</i> (chỉ người được tick). Nhớ đặt quyền tương ứng trong WPS / Drive.</p>
+    <h3>Theo dõi đóng góp</h3>
+    <p>Tab Thành viên có bảng hiệu suất (đúng hạn, trễ, giờ công, % đóng góp) và bảng CRediT. Bấm vào ô để đổi: · → ○ Hỗ trợ → ◐ Ngang nhau → ● Chính. Tab <b>Nhật ký</b> ghi mọi thay đổi kèm thời gian.</p>
+    <h3>Dự án mới</h3>
+    <p>Bấm <b>＋ Dự án mới</b> ở thanh bên. Chọn loại: <i>Tôi phụ trách</i>, <i>Tham gia</i> (dự án người khác dẫn dắt) hoặc <i>Cá nhân</i>. Ở tab Cài đặt có checklist bảo vệ nghiên cứu và tuỳ chọn "Thành viên được xem".</p>
+  </div>
+</section>
+
+<!-- ============================== 中文 ============================== -->
+<section data-l="zh">
+  <div class="note"><b>网址：</b><a href="./" class="site-url">./</a><br>
+    无需 VPN。手机、电脑都可以用。界面支持 中文、Tiếng Việt、English。</div>
+
+  <ul class="toc">
+    <li><a href="#zh-1">1. 第一次加入</a></li>
+    <li><a href="#zh-2">2. 查看我的任务</a></li>
+    <li><a href="#zh-3">3. 更新进度</a></li>
+    <li><a href="#zh-4">4. 提交成果</a></li>
+    <li><a href="#zh-5">5. 审核与退回</a></li>
+    <li><a href="#zh-6">6. 资料、日历、到期提醒</a></li>
+    <li><a href="#zh-7">7. 谁能看到什么</a></li>
+    <li><a href="#zh-8">8. 常见问题</a></li>
+    <li><a href="#zh-lead">负责人部分</a></li>
+  </ul>
+
+  <h2 id="zh-1">1. 第一次加入</h2>
+  <ol class="steps">
+    <li><b>把你的邮箱发给项目负责人</b>。负责人会把邮箱添加到成员名单中，你暂时不需要做任何事。</li>
+    <li><b>测试连接</b>：<b>关闭 VPN</b>，打开 <a class="check-url" href="check.html">check.html</a>。看到两个绿色 ✓ 即可。如果出现 ✗，请截图发给负责人。</li>
+    <li>打开网站，点击 <span class="btn">没有账号？注册</span>。</li>
+    <li>填写<b>姓名</b>、<b>与发给负责人相同的邮箱</b>和密码（至少 6 位），然后点击 <span class="btn">注册</span>。</li>
+    <li>注册后会<b>自动加入</b>你的项目。左下角可以切换语言（手机上先点 ☰）。</li>
+  </ol>
+  <div class="warn">如果登录后显示<i>“你还没有被加入任何项目”</i>：可能是你注册用的邮箱和发给负责人的不一样，或者负责人还没添加你的邮箱。请联系负责人确认。</div>
+
+  <h2 id="zh-2">2. 查看我的任务</h2>
+  <ul>
+    <li><b>总览</b>：任务<b>逾期</b>时显示红色提醒，<b>3 天内到期</b>时显示黄色提醒，下方列出即将到期的任务。</li>
+    <li>点击项目名称，进入<b>任务</b>标签页，勾选 <span class="btn">我的</span>，只显示分配给你的任务。</li>
+    <li>点击任务可以查看：<b>成果</b>、<b>评价标准</b>、<b>提交位置</b>和截止日期。</li>
+    <li><b>时间线</b>标签页按时间显示所有任务，红色竖线表示今天。</li>
+  </ul>
+
+  <h2 id="zh-3">3. 更新进度</h2>
+  <p>请<b>每周至少更新 1 次</b>，或者每有进展就更新。</p>
+  <ol class="steps">
+    <li>打开任务，找到<b>更新进度</b>。</li>
+    <li>选择<b>状态</b>：<i>未开始</i>、<i>进行中</i>、<i>暂停</i>或<i>已提交–待审核</i>。</li>
+    <li>拖动<b>进度 %</b>。</li>
+    <li>填写简短<b>备注</b>：做了什么、遇到什么问题。例如：<i>“已读 8/20 篇，知网有 2 篇没有下载权限”</i>。</li>
+    <li>点击 <span class="btn">提交</span>。每次更新都会记入<b>修改记录</b>，作为你的贡献证明。</li>
+  </ol>
+  <div class="flow"><span>未开始</span><i>→</i><span>进行中</span><i>→</i><span>已提交–待审核</span><i>→</i><span>已完成 ✓</span><i>（由负责人确认）</i></div>
+  <div class="note">成员<b>不能自己选“已完成”</b>。做完后请选<b>“已提交–待审核”</b>，负责人检查后会确认完成。系统按你选择“已提交”的日期判断<b>按时 / 延迟</b>。</div>
+
+  <h2 id="zh-4">4. 提交成果</h2>
+  <p>文件照常上传到 <b>WPS</b>（或任务里写的<i>提交位置</i>），网站上只需要填写<b>链接</b>。</p>
+  <ol class="steps">
+    <li>像平时一样把文件上传到 WPS / 共享文件夹。</li>
+    <li>在 WPS 中点击 <b>分享</b>，然后点 <b>复制链接</b>。</li>
+    <li>在网站上打开任务，找到<b>新提交</b>，粘贴链接，可加说明（例如 <i>“10 篇摘要，第 1 版”</i>），然后点 <span class="btn">提交</span>。</li>
+    <li>再把状态改为<b>已提交–待审核</b>（见第 3 步）。</li>
+  </ol>
+  <p>也可以进入<b>提交</b>标签页，选择任务，粘贴链接后提交。</p>
+  <div class="note">🔒 <b>提交内容是私密的</b>：只有<b>你</b>和<b>项目负责人</b>能看到，其他成员看不到你提交了什么。尚未审核的提交可以删除（🗑）。</div>
+
+  <h2 id="zh-5">5. 审核与退回</h2>
+  <ul>
+    <li>在<b>提交</b>标签页的<b>反馈</b>一栏查看结果：<i>待查看</i>、<i>通过</i>或<i>需修改</i>，以及负责人的意见。</li>
+    <li>如果负责人点击<b>退回修改</b>，任务会回到<i>进行中</i>。修改后提交新链接，再选<i>已提交–待审核</i>。</li>
+    <li>任务被确认为<b>已完成</b>后不能再修改。如需修改，请联系负责人。</li>
+  </ul>
+
+  <h2 id="zh-6">6. 资料、日历、到期提醒</h2>
+  <ul>
+    <li><b>资料与权限</b>标签页：与你共享的文件夹链接。每人只能看到自己工作需要的资料。</li>
+    <li>在<b>总览</b>页点击 <span class="btn">📅 添加到日历 (.ics)</span>，用手机日历或 Outlook 打开文件。日历会在每个截止日<b>提前 2 天提醒</b>。有新任务时请重新下载。</li>
+    <li>任务页的 <span class="btn">⬇ 导出 Excel (.csv)</span> 可以把任务表导出为 Excel。</li>
+  </ul>
+
+  <h2 id="zh-7">7. 谁能看到什么</h2>
+  <table>
+    <tr><th></th><th>你（成员）</th><th>其他成员</th><th>负责人</th></tr>
+    <tr><td>任务列表、总体进度</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+    <tr><td>修改你的任务进度</td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>你的提交</td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>你的邮箱</td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>绩效表、贡献占比</td><td class="n">✗</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td>CRediT 贡献记录</td><td>仅自己的</td><td class="n">✗</td><td class="y">✓</td></tr>
+    <tr><td><i>受限 / 受控</i> 资料</td><td>获授权才可见</td><td>获授权才可见</td><td class="y">✓</td></tr>
+  </table>
+  <p><small>有些项目设置为“仅看到自己的任务”，此时你只能看到分配给你的任务。</small></p>
+
+  <h2 id="zh-8">8. 常见问题</h2>
+  <h3>忘记密码？</h3><p>请联系负责人帮你重置。</p>
+  <h3>网站打不开 / 很慢？</h3><p>关闭 VPN 后重试，打开 <a class="check-url" href="check.html">check.html</a> 并把截图发给负责人。也可以换浏览器（Chrome、Edge、Safari）。在微信里打开时，请点右上角 ··· 选择“在浏览器中打开”。</p>
+  <h3>看不到更新按钮？</h3><p>只有<b>分配给你的任务</b>才能更新。如果应该是你的任务却没有显示，请让负责人重新分配。</p>
+  <h3>屏幕下方出现红色错误？</h3><p>刷新页面。如仍有问题，请截图发给负责人。</p>
+
+  <h2 id="zh-lead">负责人部分</h2>
+  <div class="card">
+    <h3>邀请成员</h3>
+    <ol>
+      <li>在项目的<b>成员</b>标签页点 ✎，填写<b>邮箱</b>后保存。新成员点 <b>＋ 添加成员</b>。</li>
+      <li>把网站链接、<code>check.html</code> 和本说明（或 PDF）发给成员。</li>
+      <li>成员用该邮箱注册后，邮箱一栏会显示 <b>✓ 已登录</b>。</li>
+    </ol>
+    <h3>分配任务</h3>
+    <p>在任务标签页点 <b>＋ 添加任务</b>，或打开任务后点 ✎ 编辑。请写清：<b>负责人</b>、<b>截止日期</b>、<b>工时</b>、<b>成果</b>（具体，例如“20 篇相关文献”）、<b>评价标准</b>和<b>提交位置</b>。</p>
+    <h3>审核</h3>
+    <p>总览页有<b>需要你审核</b>列表。打开任务查看提交，然后点 <b>✓ 确认完成</b>或<b>↺ 退回修改</b>。在提交标签页点<b>反馈</b>，可以评为<i>通过 / 需修改</i>。</p>
+    <h3>资料权限</h3>
+    <p>在资料与权限标签页添加文件夹并选择级别：<i>协作</i>（所有人可见）、<i>受控</i>或<i>受限</i>（仅勾选的成员可见）。请在 WPS / 云盘中设置相同权限。</p>
+    <h3>贡献记录</h3>
+    <p>成员标签页有绩效表（按时、延迟、工时、贡献占比）和 CRediT 表。点格子可以切换：· → ○ 辅助 → ◐ 同等 → ● 主要。<b>日志</b>标签页记录所有修改及时间。</p>
+  </div>
+</section>
+
+<p class="noprint" style="margin-top:2.5rem"><a href="./">← Project Hub</a></p>
+</main>
+<script>
+  // Language switch (?lang=zh also works), and full URLs so the printed PDF shows real links.
+  const base = location.href.replace(/guide\.html.*$/, '');
+  document.querySelectorAll('.site-url').forEach(a => { a.href = base; a.textContent = base; });
+  document.querySelectorAll('.check-url').forEach(a => { a.href = base + 'check.html'; if (a.textContent === 'check.html') a.textContent = base + 'check.html'; });
+  const set = l => {
+    document.body.className = l;
+    document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'vi';
+    document.querySelectorAll('[data-set]').forEach(b => b.classList.toggle('on', b.dataset.set === l));
+    try { localStorage.setItem('hub.lang', l); } catch (e) {}
+  };
+  let l = new URLSearchParams(location.search).get('lang');
+  if (!l) { try { l = localStorage.getItem('hub.lang'); } catch (e) {} }
+  set(l === 'zh' ? 'zh' : 'vi');
+  document.querySelectorAll('[data-set]').forEach(b => b.addEventListener('click', () => set(b.dataset.set)));
+</script>
+</body>
+</html>

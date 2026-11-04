@@ -1,0 +1,4 @@
+supabase/seed_*.sql
+*.xlsx
+.DS_Store
+supabase/.temp/
