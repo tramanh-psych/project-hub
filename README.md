@@ -21,6 +21,7 @@ Một web nhỏ để quản lý tập trung nhiều dự án nghiên cứu. Th�
 | Nhật ký đóng góp (ai đổi gì, lúc nào) | ✓ | lịch sử việc của mình |
 | Ghi chú riêng cho từng việc | ✓ | – |
 | Checklist bảo vệ nghiên cứu (8 mục) | ✓ | – |
+| Đặt lại mật khẩu cho thành viên (mật khẩu tạm, họ phải tự đổi ở lần đăng nhập sau) | ✓ | – |
 | Xuất lịch `.ics` (nhắc trước 2 ngày), xuất Excel `.csv` | ✓ | ✓ |
 
 Quyền được kiểm tra ở **cơ sở dữ liệu** (Row-Level Security trong `supabase/schema.sql`), không chỉ ở giao diện. Dù ai đó sửa code trên máy họ thì cũng không đọc được dữ liệu không thuộc quyền của họ.
@@ -101,6 +102,18 @@ Hai dự án còn lại (*Familiar but wrong*, *PTSD*) tạo nhanh bằng nút *
 - Nếu `github.io` bị chặn: có thể chuyển giao diện sang host khác chỉ bằng cách copy file (không phải sửa code).
 - Nếu `supabase.co` bị chặn: cần một host dữ liệu đặt tại Trung Quốc. Việc này phức tạp hơn (thường cần đăng ký ICP). Báo tôi để tính phương án.
 
+## Quên mật khẩu
+
+Thư tự động của Supabase (gói mặc định) gần như chỉ gửi được cho thành viên của chính team Supabase, và thư tới hộp thư ở Trung Quốc thường không đến. Vì vậy web dùng cách **người phụ trách đặt lại**:
+
+1. Thành viên nhắn bạn qua WeChat/Zalo.
+2. Bạn vào dự án, tab **Thành viên**, bấm 🔑 ở dòng của họ, rồi bấm **Đặt mật khẩu này** và sao chép tin nhắn gửi họ.
+3. Họ đăng nhập bằng mật khẩu tạm. Web bắt họ đặt mật khẩu mới ngay.
+
+Phần này chạy bằng Edge Function `supabase/functions/admin-reset-password` (cần khoá `service_role`, nên không thể chạy trên trình duyệt). Hàm tự kiểm tra người gọi: không ai đặt lại được mật khẩu của chính mình hay của tài khoản admin; người phụ trách chỉ đặt lại được cho thành viên chỉ tham gia các dự án do mình phụ trách; admin đặt lại được cho mọi người khác. Triển khai: `supabase functions deploy admin-reset-password --no-verify-jwt`.
+
+Chính bạn quên mật khẩu: thử nút **Quên mật khẩu?** ở trang đăng nhập (thường chỉ gửi được tới email thuộc team Supabase của bạn), hoặc vào Supabase **Authentication → Users** để đặt lại.
+
 ## Nhắc hạn qua email (tuỳ chọn)
 
 Mặc định web đã nhắc ngay trên trang tổng quan (quá hạn / còn ≤ 3 ngày). Ngoài ra mỗi người có thể bấm **Thêm vào lịch (.ics)** để điện thoại tự nhắc trước 2 ngày.
@@ -137,7 +150,7 @@ js/demo.js            bản demo chạy trong trình duyệt
 js/i18n.js            chữ Việt / 中文 / English
 js/vendor/supabase.js supabase-js 2.117.2 (MIT), để sẵn trong repo, không tải từ CDN
 supabase/schema.sql   bảng + quyền (RLS) + trigger nhật ký
-supabase/functions/   email nhắc hạn (tuỳ chọn)
+supabase/functions/   admin-reset-password (đặt lại mật khẩu), deadline-reminder (email nhắc hạn, tuỳ chọn)
 scripts/import_xlsx.py chuyển file Excel tiến độ thành SQL
 ```
 

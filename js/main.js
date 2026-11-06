@@ -10,14 +10,18 @@ import { renderProject, openTask } from './project.js';
 const app = document.getElementById('app');
 
 // ---------------------------------------------------------------- boot
+let booted = false;
 async function boot() {
-  installTooltips();
+  if (!booted) {
+    booted = true;
+    installTooltips();
+    api.onAuthChange(async (ev, user) => {
+      if (ev === 'PASSWORD_RECOVERY') { renderSetPassword(); return; }
+      if (ev === 'SIGNED_IN' && !state.user && user) { state.user = user; await afterLogin(); }
+      if (ev === 'SIGNED_OUT') { state.user = null; state.loaded = false; renderAuth('login'); }
+    });
+  }
   setLang(getLang());
-  api.onAuthChange(async (ev, user) => {
-    if (ev === 'PASSWORD_RECOVERY') { renderSetPassword(); return; }
-    if (ev === 'SIGNED_IN' && !state.user && user) { state.user = user; await afterLogin(); }
-    if (ev === 'SIGNED_OUT') { state.user = null; state.loaded = false; renderAuth('login'); }
-  });
   try {
     state.user = await api.getSession();
   } catch (e) { app.innerHTML = `<div class="center-card"><p>${esc(t('offline'))}</p></div>`; return; }
@@ -25,6 +29,8 @@ async function boot() {
 }
 
 async function afterLogin() {
+  // A lead set a temporary password for this person: they must choose their own first.
+  if (state.user?.user_metadata?.must_change_password) { renderSetPassword({ forced: true }); return; }
   app.innerHTML = `<div class="center-card muted">${esc(t('loading'))}</div>`;
   const ok = await guard(async () => {
     state.profile = await api.getProfile();
@@ -74,6 +80,7 @@ function renderAuth(mode) {
       ${api.mode === 'demo' ? `<p class="note">${esc(t('demoBanner'))}</p>` : ''}
       ${isUp ? field(t('fullName'), '<input name="name" autocomplete="name" required>') : ''}
       ${field(t('email'), '<input name="email" type="email" autocomplete="email" required>')}
+      ${isReset ? `<p class="note">${esc(t('forgotHint'))}</p>` : ''}
       ${isReset ? '' : field(t('password'), `<input name="password" type="password" minlength="6" autocomplete="${isUp ? 'new-password' : 'current-password'}" required>`)}
       <button class="btn primary block" type="submit">${esc(isReset ? t('send') : isUp ? t('signup') : t('login'))}</button>
       <div class="auth-links">
@@ -103,13 +110,20 @@ function renderAuth(mode) {
   });
 }
 
-function renderSetPassword() {
+function renderSetPassword({ forced = false } = {}) {
   app.innerHTML = `<div class="auth"><form class="auth-card"><h1>${esc(t('setPassword'))}</h1>
+    ${forced ? `<p class="note">${esc(t('mustChangeHint'))}</p>` : ''}
     ${field(t('newPassword'), '<input name="password" type="password" minlength="6" required autocomplete="new-password">')}
-    <button class="btn primary block">${esc(t('save'))}</button></form></div>`;
+    <button class="btn primary block">${esc(t('save'))}</button>
+    ${forced ? `<div class="auth-links"><a href="#" id="sp-out">${esc(t('logout'))}</a></div>` : ''}</form></div>`;
+  app.querySelector('#sp-out')?.addEventListener('click', e => { e.preventDefault(); api.signOut(); });
   app.querySelector('form').addEventListener('submit', async e => {
     e.preventDefault();
-    if (await guard(() => api.updatePassword(formData(e.target).password), t('saved'))) { location.hash = '#/'; boot(); }
+    if (await guard(() => api.updatePassword(formData(e.target).password), t('saved'))) {
+      location.hash = '#/';
+      state.user = await api.getSession();      // fresh copy, flag cleared
+      await afterLogin();
+    }
   });
 }
 

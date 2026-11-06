@@ -25,7 +25,7 @@ const STR = {
     daysLeft: 'còn {n} ngày', daysOver: 'trễ {n} ngày', today: 'hôm nay',
     phase: 'Giai đoạn', category: 'Loại việc', assignee: 'Người phụ trách', start: 'Bắt đầu',
     due: 'Hạn chót', hours: 'Giờ công', status: 'Trạng thái', progress: 'Tiến độ', title: 'Tên việc',
-    titleZh: 'Tên việc (中文)', deliverable: 'Kết quả cần nộp', criteria: 'Tiêu chí đánh giá',
+    titleZh: 'Tên việc (中文)', titleVi: 'Tên việc (Tiếng Việt)', deliverable: 'Kết quả cần nộp', criteria: 'Tiêu chí đánh giá',
     submitWhere: 'Nộp ở đâu', completedAt: 'Ngày nộp', approvedAt: 'Ngày duyệt',
     all: 'Tất cả', mine: 'Của tôi', search: 'Tìm…', addTask: 'Thêm việc', edit: 'Sửa', save: 'Lưu',
     cancel: 'Huỷ', del: 'Xoá', confirmDel: 'Xoá mục này?', close: 'Đóng', add: 'Thêm',
@@ -70,6 +70,15 @@ const STR = {
     leadOnly: 'Chỉ người phụ trách', countTasks: '{n} việc', links_: 'Link',
     loading: 'Đang tải…', offline: 'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.',
     me: 'tôi', date: 'Ngày', remaining: 'Còn lại', item: 'Tên', guide: 'Hướng dẫn sử dụng',
+    resetPw: 'Đặt lại mật khẩu', resetPwHint: 'Tạo mật khẩu tạm cho thành viên đã quên mật khẩu. Họ sẽ phải tự đặt mật khẩu mới ở lần đăng nhập tiếp theo.',
+    tempPassword: 'Mật khẩu tạm', resetPwDo: 'Đặt mật khẩu này', resetPwDone: 'Đã đặt lại. Hãy gửi mật khẩu tạm cho họ (ví dụ qua WeChat). Mật khẩu chỉ hiện một lần.',
+    copy: 'Sao chép', copied: 'Đã sao chép', copyMsg: 'Sao chép tin nhắn', messageToSend: 'Tin nhắn gửi cho thành viên',
+    resetMsg: 'Mật khẩu tạm của bạn trên Project Hub: {pw}\nĐăng nhập tại {url}. Hệ thống sẽ yêu cầu bạn đặt mật khẩu mới.',
+    err_forbidden: 'Bạn không có quyền đặt lại mật khẩu của người này.', err_no_account: 'Người này chưa có tài khoản.',
+    err_use_account_page: 'Hãy đổi mật khẩu của chính bạn ở trang Tài khoản.', err_not_signed_in: 'Hãy đăng nhập lại rồi thử lại.',
+    err_weak_password: 'Mật khẩu phải từ 8 ký tự.', err_update_failed: 'Không đặt lại được. Thử lại sau.',
+    mustChangeHint: 'Người phụ trách đã đặt mật khẩu tạm cho bạn. Hãy chọn mật khẩu mới của riêng bạn để tiếp tục.',
+    forgotHint: 'Thư tự động có thể không tới được hộp thư của bạn. Nếu không nhận được, hãy nhắn người phụ trách để được đặt lại mật khẩu.',
   },
   zh: {
     app: '项目管理', login: '登录', signup: '注册', logout: '退出',
@@ -96,7 +105,7 @@ const STR = {
     daysLeft: '剩 {n} 天', daysOver: '逾期 {n} 天', today: '今天',
     phase: '阶段', category: '类别', assignee: '负责人', start: '开始',
     due: '截止', hours: '工时', status: '状态', progress: '进度', title: '任务',
-    titleZh: '任务（中文）', deliverable: '成果', criteria: '评价标准',
+    titleZh: '任务（中文）', titleVi: '任务（越南语）', deliverable: '成果', criteria: '评价标准',
     submitWhere: '提交位置', completedAt: '提交日期', approvedAt: '审核日期',
     all: '全部', mine: '我的', search: '搜索…', addTask: '添加任务', edit: '编辑', save: '保存',
     cancel: '取消', del: '删除', confirmDel: '确定删除？', close: '关闭', add: '添加',
@@ -140,6 +149,15 @@ const STR = {
     leadOnly: '仅负责人', countTasks: '{n} 项任务', links_: '链接',
     loading: '加载中…', offline: '无法连接服务器，请检查网络后重试。',
     me: '我', date: '日期', remaining: '剩余', item: '名称', guide: '使用说明',
+    resetPw: '重置密码', resetPwHint: '为忘记密码的成员生成临时密码。对方下次登录时必须自己设置新密码。',
+    tempPassword: '临时密码', resetPwDo: '设置此密码', resetPwDone: '已重置。请把临时密码发给对方（例如通过微信）。密码只显示这一次。',
+    copy: '复制', copied: '已复制', copyMsg: '复制消息', messageToSend: '发给成员的消息',
+    resetMsg: '你在 Project Hub 的临时密码：{pw}\n请在 {url} 登录，系统会要求你设置新密码。',
+    err_forbidden: '你无权重置此人的密码。', err_no_account: '此人还没有注册账号。',
+    err_use_account_page: '请在“账号”页面修改你自己的密码。', err_not_signed_in: '请重新登录后再试。',
+    err_weak_password: '密码至少 8 位。', err_update_failed: '重置失败，请稍后再试。',
+    mustChangeHint: '负责人为你设置了临时密码。请设置你自己的新密码后继续。',
+    forgotHint: '自动邮件可能无法送达你的邮箱。如果没有收到，请联系负责人为你重置密码。',
   },
   en: {
     app: 'Project Hub', login: 'Sign in', signup: 'Create account', logout: 'Sign out',
@@ -166,7 +184,7 @@ const STR = {
     daysLeft: '{n} days left', daysOver: '{n} days late', today: 'today',
     phase: 'Phase', category: 'Category', assignee: 'Owner', start: 'Start',
     due: 'Deadline', hours: 'Hours', status: 'Status', progress: 'Progress', title: 'Task',
-    titleZh: 'Task (中文)', deliverable: 'Deliverable', criteria: 'Acceptance criteria',
+    titleZh: 'Task (中文)', titleVi: 'Task (Tiếng Việt)', deliverable: 'Deliverable', criteria: 'Acceptance criteria',
     submitWhere: 'Where to submit', completedAt: 'Handed in', approvedAt: 'Approved',
     all: 'All', mine: 'Mine', search: 'Search…', addTask: 'Add task', edit: 'Edit', save: 'Save',
     cancel: 'Cancel', del: 'Delete', confirmDel: 'Delete this?', close: 'Close', add: 'Add',
@@ -211,6 +229,15 @@ const STR = {
     leadOnly: 'Lead only', countTasks: '{n} tasks', links_: 'Links',
     loading: 'Loading…', offline: 'Cannot reach the server. Check the connection and try again.',
     me: 'me', date: 'Date', remaining: 'Remaining', item: 'Name', guide: 'User guide',
+    resetPw: 'Reset password', resetPwHint: 'Create a temporary password for a member who forgot theirs. They must choose a new one at their next sign-in.',
+    tempPassword: 'Temporary password', resetPwDo: 'Set this password', resetPwDone: 'Done. Send them the temporary password (e.g. over WeChat). It is shown only once.',
+    copy: 'Copy', copied: 'Copied', copyMsg: 'Copy message', messageToSend: 'Message to send',
+    resetMsg: 'Your temporary Project Hub password: {pw}\nSign in at {url}. You will be asked to choose a new password.',
+    err_forbidden: 'You are not allowed to reset this person\'s password.', err_no_account: 'This person has no account yet.',
+    err_use_account_page: 'Change your own password on the Account page.', err_not_signed_in: 'Please sign in again and retry.',
+    err_weak_password: 'The password must have at least 8 characters.', err_update_failed: 'Could not reset. Try again later.',
+    mustChangeHint: 'The lead set a temporary password for you. Choose your own new password to continue.',
+    forgotHint: 'Automatic email may not reach your inbox. If nothing arrives, ask the project lead to reset your password.',
   },
 };
 
@@ -222,6 +249,12 @@ export function setLang(l) {
   lang = STR[l] ? l : 'vi';
   try { localStorage.setItem('hub.lang', lang); } catch (e) {}
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+}
+// Translate into a specific language (e.g. a message for someone else), not the viewer's.
+export function tIn(l, key, vars) {
+  let s = (STR[l] && STR[l][key]) ?? STR.en[key] ?? key;
+  if (vars) for (const k in vars) s = s.replace('{' + k + '}', vars[k]);
+  return s;
 }
 export function t(key, vars) {
   let s = (STR[lang] && STR[lang][key]) ?? STR.en[key] ?? key;

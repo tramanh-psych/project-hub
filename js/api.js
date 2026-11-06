@@ -22,7 +22,17 @@ function supabaseBackend(url, key) {
     },
     async signOut() { await sb.auth.signOut(); },
     async resetPassword(email) { ok(await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname })); },
-    async updatePassword(password) { ok(await sb.auth.updateUser({ password })); },
+    async updatePassword(password) { ok(await sb.auth.updateUser({ password, data: { must_change_password: false } })); },
+    // Lead sets a temporary password for a member (server checks permission).
+    async resetMemberPassword(member_id, password) {
+      const { data, error } = await sb.functions.invoke('admin-reset-password', { body: { member_id, password } });
+      if (error) {
+        let code = '';
+        try { code = (await error.context.json()).error || ''; } catch (e) {}
+        const err = new Error(code || error.message); err.code = code; throw err;
+      }
+      return data;
+    },
     async getProfile() { return ok(await sb.from('profiles').select('*').eq('id', uid).single()); },
     async updateProfile(patch) { return ok(await sb.from('profiles').update(patch).eq('id', uid).select().single()); },
 

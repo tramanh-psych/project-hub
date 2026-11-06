@@ -39,8 +39,15 @@ export function fmtDateTime(s) {
   return new Date(s).toLocaleString(l === 'zh' ? 'zh-CN' : l === 'vi' ? 'vi-VN' : 'en-GB', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
+// Title in the viewer's language when the task has one; English/original otherwise.
 export function taskTitle(task) {
-  return getLang() === 'zh' && task.title_zh ? task.title_zh : task.title;
+  const l = getLang();
+  return (l === 'zh' && task.title_zh) || (l === 'vi' && task.title_vi) || task.title;
+}
+// The other-language titles, for a small subtitle (excludes the one already shown).
+export function altTitles(task) {
+  const main = taskTitle(task);
+  return [task.title, task.title_zh, task.title_vi].filter((v, i, a) => v && v !== main && a.indexOf(v) === i);
 }
 export function isClosed(task) { return task.status === 'done' || task.status === 'submitted'; }
 export function isOverdue(task, today = todayStr()) {

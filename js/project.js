@@ -1,11 +1,12 @@
 import { api } from './api.js';
 import { t } from './i18n.js';
-import { esc, todayStr, daysBetween, fmtDate, fmtDateTime, taskTitle, isOverdue, isClosed, overallProgress,
+import { esc, todayStr, daysBetween, fmtDate, fmtDateTime, taskTitle, altTitles, isOverdue, isClosed, overallProgress,
   effProgress, dueBadge, statusPill, memberStats, pct, download, toCsv, linkHtml, safeUrl,
   STATUSES, TIERS, CREDIT_ROLES, CHECKLIST, toast } from './util.js';
 import { state, loadExtras, project, membersOf, tasksOf, myMember, isLead, viewKind, memberName, navigate,
   guard, openModal, closeModal, formData, nul, options, field } from './core.js';
 import { ring, meter, statusBar, phaseBars, workloadBars, gantt } from './charts.js';
+import { tIn } from './i18n.js';
 import { refresh, projectForm } from './main.js';
 
 const TABS = ['overview', 'tasks', 'timeline', 'subs', 'resources', 'members', 'log', 'settings'];
@@ -84,7 +85,7 @@ function tasksTab(el, pid) {
     if (f.status === 'overdue') ts = ts.filter(x => isOverdue(x));
     else if (f.status) ts = ts.filter(x => x.status === f.status);
     if (f.open) ts = ts.filter(x => x.status !== 'done');
-    if (f.q) { const q = f.q.toLowerCase(); ts = ts.filter(x => [x.title, x.title_zh, x.deliverable, x.category].join(' ').toLowerCase().includes(q)); }
+    if (f.q) { const q = f.q.toLowerCase(); ts = ts.filter(x => [x.title, x.title_zh, x.title_vi, x.deliverable, x.category].join(' ').toLowerCase().includes(q)); }
     el.querySelector('#tbody').innerHTML = ts.length ? ts.map(x => `<tr class="click" data-task="${esc(x.id)}" tabindex="0">
         <td class="muted">${esc(x.ref ?? '')}</td>
         <td><div>${esc(taskTitle(x))}</div>${x.deliverable ? `<small class="muted">→ ${esc(x.deliverable)}</small>` : ''}</td>
@@ -121,9 +122,9 @@ function tasksTab(el, pid) {
   on('#fopen', 'change', e => { f.open = e.target.checked; draw(); });
   on('#addt', 'click', () => taskForm(pid));
   on('#csv', 'click', () => {
-    const head = ['#', t('phase'), t('title'), t('titleZh'), t('category'), t('assignee'), t('start'), t('due'), t('hours'),
+    const head = ['#', t('phase'), t('title'), t('titleZh'), t('titleVi'), t('category'), t('assignee'), t('start'), t('due'), t('hours'),
       t('status'), t('progress'), t('completedAt'), t('deliverable'), t('submitWhere')];
-    const rows = el._shown.map(x => [x.ref, x.phase, x.title, x.title_zh, x.category, memberName(x.assignee_id), x.start_date, x.due_date,
+    const rows = el._shown.map(x => [x.ref, x.phase, x.title, x.title_zh, x.title_vi, x.category, memberName(x.assignee_id), x.start_date, x.due_date,
       x.est_hours, t('st_' + x.status), effProgress(x), x.completed_at, x.deliverable, x.submit_where]);
     download(`${p.code}-tasks.csv`, toCsv([head, ...rows]), 'text/csv');
   });
@@ -147,8 +148,7 @@ export async function openTask(taskId) {
 
   const m = openModal(`
     <div class="task-head"><h2>${esc(taskTitle(x))}</h2>
-      ${x.title_zh && x.title_zh !== taskTitle(x) ? `<p class="muted">${esc(x.title_zh)}</p>` : ''}
-      ${x.title_zh && taskTitle(x) === x.title_zh ? `<p class="muted">${esc(x.title)}</p>` : ''}
+      ${altTitles(x).map(a => `<p class="muted">${esc(a)}</p>`).join('')}
       <div class="row">${statusPill(x.status)} ${dueBadge(x)} <span class="muted small">${esc(project(pid).code)}</span></div></div>
     <dl class="kv">
       ${kv(t('assignee'), esc(memberName(x.assignee_id) || t('unassigned')))}
@@ -233,7 +233,8 @@ function taskForm(pid, x = null) {
   const m = openModal(`<h2>${esc(x ? t('edit') : t('addTask'))}</h2>
     <form class="form grid2">
       ${field(t('title'), `<input name="title" required value="${esc(v.title)}">`, 'span2')}
-      ${field(t('titleZh'), `<input name="title_zh" value="${esc(v.title_zh)}">`, 'span2')}
+      ${field(t('titleZh'), `<input name="title_zh" value="${esc(v.title_zh)}">`)}
+      ${field(t('titleVi'), `<input name="title_vi" value="${esc(v.title_vi)}">`)}
       ${field(t('phase'), `<input name="phase" list="phl" value="${esc(v.phase)}"><datalist id="phl">${options(p.phases || [])}</datalist>`)}
       ${field(t('category'), `<input name="category" list="catl" value="${esc(v.category)}"><datalist id="catl">${options(p.categories || [])}</datalist>`)}
       ${field(t('assignee'), `<select name="assignee_id">${options(ms.map(m => [m.id, `${m.display_name} (${m.code})`]), v.assignee_id, { blank: t('unassigned') })}</select>`)}
@@ -252,7 +253,7 @@ function taskForm(pid, x = null) {
   m.querySelector('form').addEventListener('submit', async e => {
     e.preventDefault();
     const f = formData(e.target);
-    const row = { title: f.title, title_zh: nul(f.title_zh), phase: nul(f.phase), category: nul(f.category),
+    const row = { title: f.title, title_zh: nul(f.title_zh), title_vi: nul(f.title_vi), phase: nul(f.phase), category: nul(f.category),
       assignee_id: nul(f.assignee_id), est_hours: +f.est_hours || 0, start_date: nul(f.start_date), due_date: nul(f.due_date),
       status: f.status, progress: Math.max(0, Math.min(100, +f.progress || 0)), deliverable: nul(f.deliverable),
       criteria: nul(f.criteria), submit_where: nul(f.submit_where) };
@@ -400,7 +401,8 @@ function members(el, pid, ex) {
         <td>${esc(t('role_' + m.role))}</td><td class="small">${esc(m.title || '')}${m.responsibilities ? `<div class="muted">${esc(m.responsibilities)}</div>` : ''}</td>
         ${lead ? `<td class="small">${esc(email(m.id))}<div>${m.user_id ? `<span class="badge good">✓ ${esc(t('linked'))}</span>` : `<span class="badge">${esc(t('notLinked'))}</span>`}</div></td>
         <td class="small">${m.agreement_signed ? '✓ ' + fmtDate(m.agreement_signed) : '–'}</td>
-        <td><button class="icon-btn" data-editm="${esc(m.id)}" aria-label="${esc(t('edit'))}">✎</button></td>` : ''}</tr>`).join('')}
+        <td class="nowrap"><button class="icon-btn" data-editm="${esc(m.id)}" aria-label="${esc(t('edit'))}">✎</button>
+          ${m.user_id && m.id !== me?.id && m.role === 'member' ? `<button class="icon-btn" data-resetpw="${esc(m.id)}" title="${esc(t('resetPw'))}" aria-label="${esc(t('resetPw'))}">🔑</button>` : ''}</td>` : ''}</tr>`).join('')}
       </tbody></table></div></section>
     ${lead ? `<section class="panel"><h2>${esc(t('perf'))} <small class="muted">(${esc(t('leadOnly'))})</small></h2>
       <div class="tbl-wrap"><table class="tbl num"><thead><tr><th>${esc(t('name'))}</th><th>${esc(t('assigned'))}</th><th>${esc(t('done'))}</th>
@@ -463,6 +465,37 @@ function members(el, pid, ex) {
       if (ok) { closeModal(); refresh(pid); }
     });
   };
+  // Lead sets a temporary password for someone who forgot theirs.
+  const resetPw = mem => {
+    const gen = () => { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789'; const r = new Uint32Array(10); crypto.getRandomValues(r); return [...r].map(n => a[n % a.length]).join(''); };
+    const copyText = async txt => { try { await navigator.clipboard.writeText(txt); toast(t('copied'), 'ok'); } catch (e) { window.prompt(t('copy'), txt); } };
+    const m = openModal(`<h2>🔑 ${esc(t('resetPw'))}: ${esc(mem.display_name)}</h2><p class="muted">${esc(t('resetPwHint'))}</p>
+      <form class="form">${field(t('tempPassword'), `<div class="row"><input name="password" value="${esc(gen())}" readonly style="font-family:ui-monospace,monospace;font-size:1.1rem"><button type="button" class="btn small" id="pwgen">↻</button></div>`)}
+        <div class="row-end"><span class="grow"></span><button type="button" class="btn ghost" data-close>${esc(t('cancel'))}</button><button class="btn primary">${esc(t('resetPwDo'))}</button></div></form>`);
+    m.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeModal));
+    m.querySelector('#pwgen').addEventListener('click', () => { m.querySelector('input[name=password]').value = gen(); });
+    m.querySelector('form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const pw = formData(e.target).password;
+      const btn = e.target.querySelector('button.primary'); btn.disabled = true;
+      try { await api.resetMemberPassword(mem.id, pw); }
+      catch (err) {
+        btn.disabled = false; console.error(err);
+        const key = 'err_' + err.code;
+        toast(err.code && t(key) !== key ? t(key) : t('error') + ': ' + err.message, 'err'); return;
+      }
+      const url = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+      const msg = tIn('vi', 'resetMsg', { pw, url }) + '\n\n' + tIn('zh', 'resetMsg', { pw, url });
+      m.innerHTML = `<button class="icon-btn modal-x" data-close aria-label="${esc(t('close'))}">✕</button>
+        <h2>✓ ${esc(mem.display_name)}</h2><p>${esc(t('resetPwDone'))}</p>
+        <div class="panel"><h3>${esc(t('tempPassword'))}</h3><p style="font-family:ui-monospace,monospace;font-size:1.3rem;margin:.2rem 0">${esc(pw)}</p></div>
+        <h3>${esc(t('messageToSend'))}</h3><textarea rows="6" readonly>${esc(msg)}</textarea>
+        <div class="row-end"><span class="grow"></span><button class="btn primary" id="cpm">${esc(t('copyMsg'))}</button><button class="btn ghost" data-close>${esc(t('close'))}</button></div>`;
+      m.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeModal));
+      m.querySelector('#cpm').addEventListener('click', () => copyText(msg));
+    });
+  };
+  el.querySelectorAll('[data-resetpw]').forEach(b => b.addEventListener('click', () => resetPw(ms.find(m => m.id === b.dataset.resetpw))));
   el.querySelector('#addm')?.addEventListener('click', () => form());
   el.querySelectorAll('[data-editm]').forEach(b => b.addEventListener('click', () => form(ms.find(m => m.id === b.dataset.editm))));
 }

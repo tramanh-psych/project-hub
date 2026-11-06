@@ -81,6 +81,7 @@ create table if not exists public.tasks (
   category         text,
   title            text not null,
   title_zh         text,
+  title_vi         text,
   assignee_id      uuid references public.project_members(id) on delete set null,
   start_date       date,
   due_date         date,
@@ -559,3 +560,8 @@ grant execute on function public.is_admin(), public.is_lead(uuid), public.is_mem
   public.can_see_task(uuid), public.can_see_resource(uuid), public.resource_project(uuid),
   public.report_progress(uuid, text, integer, text), public.set_member_email(uuid, text)
   to authenticated;
+
+-- ---------------------------------------------------------------------
+-- 8. Upgrades for databases created before these columns existed (safe to re-run)
+-- ---------------------------------------------------------------------
+alter table public.tasks add column if not exists title_vi text;

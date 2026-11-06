@@ -20,7 +20,7 @@ Deno.serve(async req => {
   const in3 = new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10);
 
   const { data: tasks, error } = await sb.from('tasks')
-    .select('id,title,title_zh,due_date,status,project_id,assignee_id')
+    .select('id,title,title_zh,title_vi,due_date,status,project_id,assignee_id')
     .in('status', ['not_started', 'in_progress']).not('assignee_id', 'is', null).lte('due_date', in3);
   if (error) return new Response(error.message, { status: 500 });
 
@@ -42,7 +42,7 @@ Deno.serve(async req => {
   let sent = 0;
   for (const { p, items } of byUser.values()) {
     const s = L[(p.lang as keyof typeof L)] ?? L.vi;
-    const row = (x: any) => `<li>[${esc(x.code)}] ${esc(p.lang === 'zh' && x.title_zh ? x.title_zh : x.title)} — ${s.due} ${x.due_date}</li>`;
+    const row = (x: any) => `<li>[${esc(x.code)}] ${esc((p.lang === 'zh' && x.title_zh) || (p.lang === 'vi' && x.title_vi) || x.title)} — ${s.due} ${x.due_date}</li>`;
     const over = items.filter(x => x.due_date < today), soon = items.filter(x => x.due_date >= today);
     const html = `<p>${esc(p.full_name || '')},</p>
       ${over.length ? `<h3 style="color:#b42626">⚠ ${s.over}</h3><ul>${over.map(row).join('')}</ul>` : ''}

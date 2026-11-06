@@ -134,7 +134,7 @@ export function demoBackend() {
     demoReset() { localStorage.removeItem(KEY); db = sample(); save(); },
     async getSession() { return me() ? { id: db.current, email: me().email } : null; },
     onAuthChange() {},
-    async signIn() {}, async signUp() { return {}; }, async signOut() {}, async resetPassword() {}, async updatePassword() {},
+    async signIn() {}, async signUp() { return {}; }, async signOut() {}, async resetPassword() {}, async updatePassword() {}, async resetMemberPassword() { return { ok: true }; },
     async getProfile() { return clone(me()); },
     async updateProfile(patch) { Object.assign(me(), patch); save(); return clone(me()); },
     async loadCore() {
